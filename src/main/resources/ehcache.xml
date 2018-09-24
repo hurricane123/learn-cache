@@ -1,0 +1,37 @@
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xmlns='http://www.ehcache.org/v3'
+	xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
+	
+	<cache alias="myCache1">
+		<key-type>java.lang.String</key-type>
+		<value-type>java.lang.String</value-type>
+		<!-- 缓存过期策略配置，只能配置tti、ttl、none、class之中的一种 -->
+		<expiry>
+			<!-- 空闲指定时间回收 -->
+			<!-- <tti unit="seconds">1</tti> -->
+			<!-- 存在指定时间回收 -->
+			<!-- <ttl unit="seconds">1</ttl> -->
+			<none/>
+		</expiry>
+		<resources>
+			<!-- 堆内存使用配置 -->
+			<!-- 堆内存配置的空间不能大于堆外内存的配置空间 -->
+			<heap unit="entries">100</heap>
+			<!-- 1、堆外内存使用限制配置 -->
+			<!-- 2、使用的空间达到此处配置后，进行回收 -->
+			<!-- 3、最小配置为1M，超出指定空间后，无法正常保存（获取的结果为null，见2） -->
+			<offheap unit="MB">1</offheap>
+		</resources>
+	</cache>
+	
+	<cache-template name="myTemplate">
+		<key-type>java.lang.Long</key-type>
+		<value-type>java.lang.String</value-type>
+		<heap unit="entries">200</heap>
+	</cache-template>
+	<!-- 使用模板的情况下，模板的属性是可以进行覆盖的 -->
+	<cache alias="myCache2" uses-template="myTemplate">
+		<key-type>java.lang.String</key-type>
+	</cache>
+
+</config>
