@@ -1,7 +1,6 @@
-package com.hurricane.learn.cache;
+package com.hurricane.learn.cache.ehcache;
 
 import java.net.URL;
-import java.util.Optional;
 
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
@@ -10,17 +9,21 @@ import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.CacheManagerBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.xml.XmlConfiguration;
+
+import com.hurricane.learn.cache.entity.User;
 /**
  * 参考：https://blog.csdn.net/Gentlemike/article/details/80403967
+ * ehcache使用内存和硬盘，不需要额外单独的服务器程序（类似于memcached）
+ * ehcache保存实体类时，即使实体类不实现系列化接口（正常都应该实现），仍然可以保存，memcache中要求实体类必须实现系列化
  * @author Hurricane
  *
  */
 public class App {
 
 	public static void main(String[] args) throws InterruptedException {
-//		cacheBaseJavaConfig();
+		cacheBaseJavaConfig();
 //		cacheBaseXmlConfig();
-		cacheConfigTest();
+//		cacheConfigTest();
 	}
 	
 	/**
@@ -83,11 +86,14 @@ public class App {
 
 		Cache<Long, String> myCache1 = cacheManager.getCache("myCache1", Long.class, String.class);
 		// ehcache也可以使用这种方式构造一个cache，cache是不可以重名的
-		Cache<String, String> myCache2 = cacheManager.createCache("myCache2", CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, String.class, ResourcePoolsBuilder.heap(10)));
+		Cache<String, User> myCache2 = cacheManager.createCache("myCache2", CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, User.class, ResourcePoolsBuilder.heap(10)));
 		myCache1.put(0L, "tornado");
-		myCache2.put("name","hurricane");
+		User user = new User();
+		user.setUsername("hurricane");
+		user.setAge(12);
+		myCache2.put("user",user);
 		System.out.println(myCache1.get(0L));
-		System.out.println(myCache2.get("name"));
+		System.out.println(myCache2.get("user"));
 		// 可以用这种方式移除一个已经存在的cache
 		cacheManager.removeCache("myCache1");
 		// 关闭所有的cache
