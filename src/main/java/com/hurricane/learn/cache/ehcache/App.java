@@ -15,6 +15,7 @@ import com.hurricane.learn.cache.entity.User;
  * 参考：https://blog.csdn.net/Gentlemike/article/details/80403967
  * ehcache使用内存和硬盘，不需要额外单独的服务器程序（类似于memcached）
  * ehcache保存实体类时，即使实体类不实现系列化接口（正常都应该实现），仍然可以保存，memcache中要求实体类必须实现系列化
+ * 参见：https://blog.csdn.net/hurricane_li/article/details/82831694
  * @author Hurricane
  *
  */

@@ -1,13 +1,16 @@
 package com.hurricane.learn.cache.memcache;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 
 import com.hurricane.learn.cache.entity.User;
 
 import net.spy.memcached.CASValue;
 import net.spy.memcached.MemcachedClient;
-
+/**
+ * 对memcache进行简单的操作
+ * memcache环境搭建参见：https://blog.csdn.net/hurricane_li/article/details/82864549
+ * @author lijm11
+ */
 public class App {
 
 	public static void main(String[] args){
